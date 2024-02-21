@@ -122,6 +122,12 @@ class Easy_Editor {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-easy-editor-public.php';
 
+		/**
+		 * The class responsible defining the custom post type for todos
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-todos-post-type.php';
+
+
 		$this->loader = new Easy_Editor_Loader();
 
 	}

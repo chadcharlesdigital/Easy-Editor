@@ -31,6 +31,9 @@ class Easy_Editor_Deactivator {
 	 */
 	public static function deactivate() {
 
+		//IMPORTANT TODO MOVE THIS TO UNINSTALL.PHP
+		remove_role( 'website_manager' );
+
 	}
 
 }
