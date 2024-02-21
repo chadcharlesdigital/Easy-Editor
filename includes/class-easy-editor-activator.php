@@ -34,6 +34,7 @@ class Easy_Editor_Activator
 	{
 		flush_rewrite_rules();
 		self::register_website_manager_role();
+		self::add_todo_capabilities_to_admin();
 	}
 
 	private static function register_website_manager_role()
@@ -94,6 +95,28 @@ class Easy_Editor_Activator
 			)
 		);
 	}
+
+	private static function add_todo_capabilities_to_admin() {
+		// Get the administrator role object
+		$admin_role = get_role('administrator');
+	
+		// Check if the role exists
+		if (!is_null($admin_role)) {
+			// Add custom capabilities related to 'Todo' CPT
+			$admin_role->add_cap('edit_todos');
+			$admin_role->add_cap('edit_others_todos');
+			$admin_role->add_cap('publish_todos');
+			$admin_role->add_cap('read_private_todos');
+			$admin_role->add_cap('delete_todos');
+			$admin_role->add_cap('delete_private_todos');
+			$admin_role->add_cap('delete_published_todos');
+			$admin_role->add_cap('delete_others_todos');
+			$admin_role->add_cap('edit_private_todos');
+			$admin_role->add_cap('edit_published_todos');
+			// Repeat for any other 'Todo' capabilities you need to add
+		}
+	}
+	
 
 
 }
