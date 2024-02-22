@@ -20,7 +20,8 @@
  * @subpackage Easy_Editor/public
  * @author     Chad Charles <chad@digitaleasyllc.com>
  */
-class Easy_Editor_Public {
+class Easy_Editor_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,7 +48,8 @@ class Easy_Editor_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
@@ -59,7 +61,8 @@ class Easy_Editor_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,7 +76,7 @@ class Easy_Editor_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/easy-editor-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/easy-editor-public.css', array(), $this->version, 'all');
 
 	}
 
@@ -82,7 +85,8 @@ class Easy_Editor_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +100,12 @@ class Easy_Editor_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/easy-editor-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/easy-editor-public.js', array('jquery'), $this->version, false);
 
+		//only enqueue the on-off script if the user is logged in and has the capability to edit todos
+		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin() ) {
+			wp_enqueue_script('easy-editor-on-off', plugin_dir_url(__FILE__) . 'js/easy-editor-on-off.js', array('jquery'), $this->version, true);
+		}
 	}
-
+	
 }

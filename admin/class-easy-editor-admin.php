@@ -100,4 +100,44 @@ class Easy_Editor_Admin {
 
 	}
 
+	/*
+	 * Add the Easy Editor admin toolbar items if the user has the 
+	 * capability to edit todos and the user isn't on an admin page
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_admin_toolbar_items($wp_admin_bar)
+	{
+		if ( Easy_Editor_Helper::check_user_capability_for_todos('c') && !is_admin() ) {
+			// Add the parent item
+			$wp_admin_bar->add_node(
+				array(
+					'id' => 'easy-editor',
+					'title' => '<span class="on-off-light">Easy Editor</span>',
+					'href' => '#',
+				)
+			);
+
+			// Add the first submenu item - Enable Todos
+			$wp_admin_bar->add_node(
+				array(
+					'parent' => 'easy-editor',
+					'id' => 'enable-todos',
+					'title' => 'Enable Todos',
+					'href' => "#", // Adjust the link as necessary
+				)
+			);
+
+			// Add the second submenu item - Pending Todos
+			$wp_admin_bar->add_node(
+				array(
+					'parent' => 'easy-editor',
+					'id' => 'pending-todos',
+					'title' => 'Pending Todos',
+					'href' => "#", // Adjust the link as necessary
+				)
+			);
+		}
+	}
+
 }

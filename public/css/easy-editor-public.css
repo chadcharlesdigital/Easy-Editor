@@ -2,3 +2,17 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+.on-off-light::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: red;
+    margin-left: 5px;
+}
+
+body.easy-editor-on .on-off-light::after {
+    background-color: green;
+}

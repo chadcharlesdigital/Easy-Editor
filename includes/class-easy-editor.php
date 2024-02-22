@@ -126,6 +126,10 @@ class Easy_Editor {
 		 * The class responsible defining the custom post type for todos
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-todos-post-type.php';
+		/**
+		 * Static helper class for the plugin
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-editor-helper.php';
 
 
 		$this->loader = new Easy_Editor_Loader();
@@ -163,6 +167,9 @@ class Easy_Editor {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		//add the toolbar item for the todos
+		$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'add_admin_toolbar_items', 999 );
+
 	}
 
 	/**
@@ -179,7 +186,7 @@ class Easy_Editor {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-	}
+		}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
