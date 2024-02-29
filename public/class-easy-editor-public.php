@@ -103,9 +103,16 @@ class Easy_Editor_Public
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/easy-editor-public.js', array('jquery'), $this->version, false);
 
 		//only enqueue the on-off script if the user is logged in and has the capability to edit todos
-		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin() ) {
-			wp_enqueue_script('easy-editor-on-off', plugin_dir_url(__FILE__) . 'js/easy-editor-on-off.js', array('jquery'), $this->version, true);
+		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin()) {
+			// Assuming you have determined the current page ID somehow
+			$current_page_id = get_the_ID();
+
+			// Enqueue your JavaScript file
+			wp_enqueue_script('easy-editor-on-off', plugin_dir_url(__FILE__) . 'js/easy-editor-on-off.js', array('jquery'), '1.0.0', true);
+
+			// Localize the script with your data
+			wp_localize_script('easy-editor-on-off', 'pageData', array('pageId' => $current_page_id));
 		}
 	}
-	
+
 }

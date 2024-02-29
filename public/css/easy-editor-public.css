@@ -16,3 +16,15 @@
 body.easy-editor-on .on-off-light::after {
     background-color: green;
 }
+
+body.easy-editor-on{
+    cursor: pointer;
+}
+
+.easy-editor-create-todo{
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    background-color: rgba(0, 0, 255, 0.5); /* Semi-transparent blue */
+    pointer-events: none; /* Allows clicking through the box if needed */
+}
