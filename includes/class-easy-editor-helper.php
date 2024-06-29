@@ -20,4 +20,23 @@ class Easy_Editor_Helper {
                 return false;
         }
     }
+
+    public static function should_editor_be_active(){
+        return is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin();
+    }
+
+    public static function generate_wysiwyg_editor($content){
+        $settings = array(
+            'textarea_name' => 'ee_new_todo', // Name attribute of the <textarea> element
+            'media_buttons' => true, // Show insert/upload media button
+            'textarea_rows' => 10, // Set the number of rows in <textarea>
+            'teeny'         => false, // Output the minimal editor config used in Press This
+            'quicktags'     => true  // Show quicktags
+            // Additional settings can be added here.
+        );
+        ob_start();
+        wp_editor($content, 'easy-editor-todo-content', $settings );
+        $editor = ob_get_clean();
+        return $editor;
+    }
 }

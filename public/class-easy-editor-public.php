@@ -101,7 +101,7 @@ class Easy_Editor_Public
 		 */
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/easy-editor-public.js', array('jquery'), $this->version, false);
-
+		wp_enqueue_script('font-awesome', 'https://kit.fontawesome.com/f3d72fc7e6.js' );
 		//only enqueue the on-off script if the user is logged in and has the capability to edit todos
 		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin()) {
 			// Assuming you have determined the current page ID somehow
@@ -115,4 +115,11 @@ class Easy_Editor_Public
 		}
 	}
 
+	public function generate_sidebar()
+	{
+		if (Easy_Editor_Helper::should_editor_be_active()) {
+			//load the sidebar template
+			include_once plugin_dir_path(__FILE__) . 'partials/easy-editor-public-sidebar.php';
+		}
+	}
 }

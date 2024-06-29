@@ -13,6 +13,10 @@
         }
     });
 
+    function updateBodyClasses() {
+        
+    }
+
 
     document.addEventListener('mouseover', function (e) {
         // Check if 'easy-editor-on' class is present on the body
