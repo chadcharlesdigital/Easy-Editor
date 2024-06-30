@@ -15,7 +15,7 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div id="easy-editor-sidebar">
-    <div class="sidebar-header">
+    <!-- <div class="sidebar-header">
         <div class="sidebar-options">
             <i class="fas fa-cog"></i>
         </div>
@@ -28,9 +28,9 @@
     </div>
 
     <div class="sidebar-content">
-        <!-- form for creating todos -->
-        <form action="" class="easy-editor-create-todo">
+         form for creating todos -->
+        <!-- <form action="" class="easy-editor-create-todo">
             
-        </form>
-    </div>
+        </form> -->
+    <!-- </div> --> 
 </div>

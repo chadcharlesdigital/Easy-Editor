@@ -1,0 +1,31 @@
+{
+  "name": "easy-editor",
+  "version": "1.0.0",
+  "description": "=== Plugin Name === Contributors: (this should be a list of wordpress.org userid's) Donate link: https://digitaleasyllc.com/ Tags: comments, spam Requires at least: 3.0.1 Tested up to: 3.4 Stable tag: 4.3 License: GPLv2 or later License URI: http://www.gnu.org/licenses/gpl-2.0.html",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chadcharlesdigital/Easy-Editor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chadcharlesdigital/Easy-Editor/issues"
+  },
+  "homepage": "https://github.com/chadcharlesdigital/Easy-Editor#readme",
+  "dependencies": {
+    "@wordpress/scripts": "^28.2.0"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^19.2.4",
+    "dir-archiver": "^1.1.1",
+    "node-sass": "^7.0.1",
+    "rtlcss": "^3.5.0"
+  }
+}
