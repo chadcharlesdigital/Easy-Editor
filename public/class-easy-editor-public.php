@@ -76,7 +76,7 @@ class Easy_Editor_Public
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/easy-editor-public.css', array(), $this->version, 'all');
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . '../build/index.css', array(), $this->version, 'all');
 
 	}
 
@@ -118,7 +118,7 @@ class Easy_Editor_Public
 
 	public function generate_sidebar()
 	{
-		if (Easy_Editor_Helper::should_editor_be_active()) {
+		if ( Easy_Editor_Helper::should_editor_be_active() ) {
 			//load the sidebar template
 			include_once plugin_dir_path(__FILE__) . 'partials/easy-editor-public-sidebar.php';
 		}
