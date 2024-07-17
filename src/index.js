@@ -7,9 +7,7 @@ import ReactDOM from "react-dom"
 
 
 
-const root = ReactDOM.createRoot( document.getElementById( 'easy-editor-sidebar' ) );
-
-console.log( root );
+const root = ReactDOM.createRoot( document.getElementById( 'easy-editor-sidebar-wrapper' ) );
 
 root.render(<Sidebar />)
 

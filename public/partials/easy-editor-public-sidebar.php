@@ -14,7 +14,7 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div id="easy-editor-sidebar">
+<div id="easy-editor-sidebar-wrapper">
     <!-- <div class="sidebar-header">
         <div class="sidebar-options">
             <i class="fas fa-cog"></i>

@@ -101,7 +101,7 @@ class Easy_Editor_Public
 		 */
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/easy-editor-public.js', array('jquery'), $this->version, false);
-		wp_enqueue_script('font-awesome', 'https://kit.fontawesome.com/f3d72fc7e6.js' );
+		wp_enqueue_script('font-awesome-6', 'https://kit.fontawesome.com/f3d72fc7e6.js' );
 		// scripts enqueued if the user is logged in and has the capability to edit todos
 		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_todos('u') && !is_admin()) {
 			// Get the current page ID 

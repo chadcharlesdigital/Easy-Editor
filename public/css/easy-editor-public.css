@@ -3,7 +3,7 @@
  * included in this file.
  */
 
-.on-off-light::after {
+/* .on-off-light::after {
     content: "";
     width: 8px;
     height: 8px;
@@ -44,4 +44,4 @@ body.easy-editor-on{
 .easy-editor-on #easy-editor-sidebar .sidebar-title{
     font-size: 20px;
     font-weight: 600;
-}
+} */

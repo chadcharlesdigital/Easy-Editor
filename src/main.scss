@@ -1,3 +1,5 @@
+@import './styles/sidebar.scss';
+
 /**
  * All of the CSS for your public-facing functionality should be
  * included in this file.
@@ -19,29 +21,4 @@ body.easy-editor-on .on-off-light::after {
 
 body.easy-editor-on{
     cursor: pointer;
-}
-
-
-.easy-editor-on #easy-editor-sidebar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background-color: white;
-    width: 20vw;
-    padding-top: 20px;
-}
-
-.easy-editor-on #easy-editor-sidebar .sidebar-header{
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.easy-editor-on #easy-editor-sidebar .sidebar-title{
-    font-size: 20px;
-    font-weight: 600;
 }

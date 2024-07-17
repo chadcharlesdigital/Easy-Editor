@@ -1,0 +1,99 @@
+body {
+    transition: margin-left ease .3s;
+}
+
+#easy-editor-sidebar {
+    transition: width ease .3s;
+    display: block;
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    border-top: 1px solid #000000;
+    width: 100%;
+    height: 45vh;
+
+    .ee-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 16px;
+        align-items: stretch;
+        border-bottom: 1px solid #e0e0e0;
+        background-color: #f9f9f9;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+
+        .ee-exit,
+        .ee-logo,
+        .ee-collapse {
+            cursor: pointer;
+            padding: 20px 20px;
+            text-align: center;
+            align-self: center;
+
+            h2 {
+                margin: 0;
+            }
+        }
+
+        .ee-exit,
+        .ee-collapse {
+            flex-basis: 10%;
+        }
+
+    }
+
+    .ee-mobile-tabs {
+        .ee-tab-header-container {
+            display: flex;
+            border-bottom: 1px solid #000000;
+            margin-bottom: 12px;
+
+            .ee-tab-header {
+                padding: 12px;
+                margin: 6px;
+            }
+
+            .ee-tab-header.active {
+                color: white;
+                background-color: #A9A9A9;
+                border-radius: 10px;
+            }
+        }
+
+        .ee-tab-content{
+            display: none;
+        }
+        .ee-tab-content.active{
+            display: block;
+        }
+    }
+}
+
+
+
+
+//media query to target screens larger than 782px
+@media (min-width: 783px) {
+
+    body.easy-editor-on {
+        width: calc(100vw - 300px);
+        margin-left: 300px;
+    }
+
+    #easy-editor-sidebar {
+
+        padding-top: 32px;
+        overflow: hidden;
+        width: 0px;
+        top: 0;
+        left: 0;
+        height: 100vh;
+    }
+
+    .easy-editor-on {
+        #easy-editor-sidebar {
+            width: 300px;
+        }
+    }
+}
