@@ -1,16 +1,40 @@
-import React from 'react'
-import './Tabs'
+import React, { useEffect } from 'react'
 import Tabs from './Tabs';
+// import './Tabs'
 
 function Sidebar() {
 
-  // const [sidebarVisible, setSidebarVisible] = React.useState("open");
+  const [sidebarVisible, setSidebarVisible] = React.useState("closed");
+
+  const toggleSidebar = () => {
+    setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
+  };
+  
+  useEffect(() => {
+    const sidebarToggles = document.querySelectorAll(".ee-sidebar-toggle");
+    sidebarToggles.forEach(toggle => {
+      toggle.addEventListener("click", toggleSidebar);
+      if (sidebarVisible === "open") {
+        document.body.classList.add('easy-editor-on');
+      }else if(sidebarVisible === "closed") {
+        document.body.classList.remove('easy-editor-on');
+      }
+    });
+  
+    return () => {
+      sidebarToggles.forEach(toggle => {
+        toggle.removeEventListener("click", toggleSidebar);
+        document.body.classList.remove('easy-editor-on');
+      });
+    };
+  }, [sidebarVisible]);
 
   return (
     <div id="easy-editor-sidebar">
 
       <div className="ee-header">
-        <div className="ee-exit">
+        <div className="ee-exit"
+             onClick={(e) => {setSidebarVisible('closed')}}>
           <i class="fa-solid fa-x fa-2x"></i>
         </div>
         <div className="ee-logo">

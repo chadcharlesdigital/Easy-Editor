@@ -115,6 +115,7 @@ class Easy_Editor_Admin {
 					'id' => 'easy-editor',
 					'title' => '<span class="on-off-light">Easy Editor</span>',
 					'href' => '#',
+					
 				)
 			);
 
@@ -125,6 +126,9 @@ class Easy_Editor_Admin {
 					'id' => 'enable-todos',
 					'title' => 'Enable Todos',
 					'href' => "#", // Adjust the link as necessary
+					'meta' => [
+						'class' => 'ee-sidebar-toggle',
+					]
 				)
 			);
 
