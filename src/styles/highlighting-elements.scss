@@ -1,0 +1,26 @@
+// .easy-editor-on * {
+//     position: relative;
+// }
+
+// .easy-editor-on *:hover:not(#easy-editor-sidebar):not(#easy-editor-sidebar *):not(#wpadminbar):not(#wpadminbar *)::after {
+//     content: '';
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     bottom: 0;
+//     left: 0;
+//     outline: 1px solid red;
+//     pointer-events: none; /* Ensure the outline does not interfere with pointer events */
+// }
+
+// .easy-editor-on .ee-highlighted,
+// .easy-editor-on .ee-selected{
+//     outline: 1px solid red;
+// }
+
+.easy-editor-on{
+    .ee-highlighted, .ee-selected{
+        outline: 1px solid red;
+    }
+
+}

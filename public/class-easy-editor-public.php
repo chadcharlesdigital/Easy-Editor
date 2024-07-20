@@ -107,7 +107,13 @@ class Easy_Editor_Public
 			// Get the current page ID 
 			$current_page_id = get_the_ID();
 			wp_enqueue_script('easy-editor-react', plugin_dir_url(__FILE__) . "../build/index.js", array('wp-element'), '1.0', true);
-
+			// Localize the script with new data
+			$script_data = array(
+				'current_page_id' => $current_page_id,
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('easy_editor_nonce')
+			);
+			wp_localize_script('easy-editor-react', 'easy_editor_data', $script_data);
 		}
 	}
 

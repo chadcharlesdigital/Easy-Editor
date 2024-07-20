@@ -1,26 +1,28 @@
 import React, { useEffect } from 'react'
 import Tabs from './Tabs';
+import NewTaskForm from './NewTaskForm';
 // import './Tabs'
 
 function Sidebar() {
 
   const [sidebarVisible, setSidebarVisible] = React.useState("closed");
 
-  const toggleSidebar = () => {
+  const toggleSidebar = (e) => {
+    e.preventDefault();
     setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
   };
-  
+
   useEffect(() => {
     const sidebarToggles = document.querySelectorAll(".ee-sidebar-toggle");
     sidebarToggles.forEach(toggle => {
       toggle.addEventListener("click", toggleSidebar);
       if (sidebarVisible === "open") {
         document.body.classList.add('easy-editor-on');
-      }else if(sidebarVisible === "closed") {
+      } else if (sidebarVisible === "closed") {
         document.body.classList.remove('easy-editor-on');
       }
     });
-  
+
     return () => {
       sidebarToggles.forEach(toggle => {
         toggle.removeEventListener("click", toggleSidebar);
@@ -34,29 +36,23 @@ function Sidebar() {
 
       <div className="ee-header">
         <div className="ee-exit"
-             onClick={(e) => {setSidebarVisible('closed')}}>
-          <i class="fa-solid fa-x fa-2x"></i>
+          onClick={(e) => { setSidebarVisible('closed') }}>
+          <i className="fa-solid fa-x fa-2x"></i>
         </div>
         <div className="ee-logo">
           <h2>Easy Editor</h2>
         </div>
 
         <div className="ee-collapse">
-          <i class="fa-sharp fa-solid fa-caret-down fa-2x"></i>
+          <i className="fa-sharp fa-solid fa-caret-down fa-2x"></i>
         </div>
       </div>
       <Tabs
         tabs={[
           {
             title: "New Task",
-            content: <form>
-              <h3>New Task</h3>
-              <label htmlFor="task-name">Task Name</label>
-              <input type="text" id="task-name" name="task-name" />
-              <label htmlFor="task-description">Task Description</label>
-              <textarea id="task-description" name="task-description"></textarea>
-              <input type="submit" value="Submit" />
-            </form>,
+            content: <NewTaskForm
+              sidebarState={sidebarVisible} />,
             activeTab: 0,
           },
           {

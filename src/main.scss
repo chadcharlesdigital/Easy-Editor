@@ -1,10 +1,10 @@
 @import './styles/sidebar.scss';
+@import './styles/highlighting-elements.scss';
 
 /**
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-
  .on-off-light::after {
     content: "";
     width: 8px;
