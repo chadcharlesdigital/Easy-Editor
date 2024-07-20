@@ -1,5 +1,5 @@
 html,body{
-    overflow: hidden; /* Prevent default body scrolling */
+    overflow: scroll; /* Prevent default body scrolling */
 }
 
 body{
@@ -72,13 +72,6 @@ body{
             display: block;
         }
     }
-}
-
-html, body {
-    // margin: 0;
-    // padding: 0;
-    // height: 100%;
-    // overflow: hidden; /* Prevent default body scrolling */
 }
 
 body.easy-editor-on{
