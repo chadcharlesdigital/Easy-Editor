@@ -12,22 +12,46 @@ function Sidebar() {
     setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
   };
 
+  let touchTimes = [];
+
+  const tripleTap = (e) => {
+    const now = Date.now();
+    touchTimes.push(now);
+
+    // Filter out touch times older than 500 milliseconds
+    touchTimes = touchTimes.filter(time => now - time < 500);
+
+    if (touchTimes.length === 3) {
+      setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
+      e.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      touchTimes = []; // Reset the array after detecting a triple tap
+    }
+  }
+
   useEffect(() => {
     const sidebarToggles = document.querySelectorAll(".ee-sidebar-toggle");
     sidebarToggles.forEach(toggle => {
       toggle.addEventListener("click", toggleSidebar);
-      if (sidebarVisible === "open") {
+    });
+
+    document.addEventListener('touchend', tripleTap);
+
+
+    if (sidebarVisible === "open") {
         document.body.classList.add('easy-editor-on');
+        console.log('adding easy editor to the body');
       } else if (sidebarVisible === "closed") {
         document.body.classList.remove('easy-editor-on');
+        console.log('removing easy editor to the body');
+
       }
-    });
 
     return () => {
       sidebarToggles.forEach(toggle => {
         toggle.removeEventListener("click", toggleSidebar);
         document.body.classList.remove('easy-editor-on');
       });
+      document.removeEventListener('touchend', tripleTap);
     };
   }, [sidebarVisible]);
 
@@ -40,7 +64,7 @@ function Sidebar() {
           <i className="fa-solid fa-x fa-2x"></i>
         </div>
         <div className="ee-logo">
-          <h2>Easy Editor</h2>
+          <h2><span className="text-blue">Easy</span> <span className="text-green">Editor</span></h2>
         </div>
 
         <div className="ee-collapse">

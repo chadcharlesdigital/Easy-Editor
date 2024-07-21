@@ -76,7 +76,8 @@ body{
 
 body.easy-editor-on{
     position: relative;
-    height: 50vh;
+    // height: 50vh;
+    margin-bottom: 50vh;
     overflow-y: auto;
     #easy-editor-sidebar{
         bottom: 0;
