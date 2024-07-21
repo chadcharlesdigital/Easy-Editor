@@ -3,6 +3,11 @@
 }
 
 .new-task-form{
+
+    .new-task-title{
+        @include font-style;
+        margin-bottom: 0px;
+    }
     label{
         display: block;
         margin-bottom: 5px;

@@ -80,7 +80,7 @@ function NewTaskForm({ sidebarState }) {
     return (
         <div className="form-wrapper">
             <form className='new-task-form' onSubmit={handleForm}>
-                <h3 className='new-task-title'>Assign New Task:</h3>
+                <h3 className='new-task-title'>Assign Task</h3>
                 <label htmlFor="task-description">Instructions for developer:</label>
                 <textarea
                     id="task-description"
