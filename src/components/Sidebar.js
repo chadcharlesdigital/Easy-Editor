@@ -64,7 +64,7 @@ function Sidebar() {
           <i className="fa-solid fa-x fa-2x"></i>
         </div>
         <div className="ee-logo">
-          <h2><span className="text-blue">Easy</span> <span className="text-green">Editor</span></h2>
+          <h2 className="ee-headline"><span className="text-blue">EASY </span> <span className="text-green">EDITOR</span></h2>
         </div>
 
         <div className="ee-collapse">
@@ -80,7 +80,7 @@ function Sidebar() {
             activeTab: 0,
           },
           {
-            title: "Current tasks on this page",
+            title: "Active Tasks 3",
             content: <ul>
               <li>Task 1<br />lorum ipsum lorum nunmum lical spocil</li>
               <li>Task 2<br />lorum ipsum lorum nunmum lical spocil</li>

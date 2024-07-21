@@ -1,9 +1,11 @@
-html,body{
-    overflow: scroll; /* Prevent default body scrolling */
+html,
+body {
+    overflow: scroll;
+    /* Prevent default body scrolling */
 }
 
-body{
-    transition: margin-left ease .3s, height ease .3sgit ;
+body {
+    transition: margin-left ease .3s, height ease .3sgit;
 }
 
 #easy-editor-sidebar {
@@ -19,7 +21,7 @@ body{
     .ee-header {
         display: flex;
         justify-content: space-between;
-        padding: 0px 16px;
+        padding: 20px;
         align-items: stretch;
         border-bottom: 1px solid #e0e0e0;
         background-color: #f9f9f9;
@@ -31,12 +33,29 @@ body{
         .ee-logo,
         .ee-collapse {
             cursor: pointer;
-            padding: 20px 20px;
+            // padding: 20px 20px;
             text-align: center;
             align-self: center;
 
             h2 {
                 margin: 0;
+            }
+        }
+
+        .ee-logo {
+
+            .ee-headline {
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+
+            .text-blue {
+                color: $blue;
+            }
+
+            .text-green {
+                color: $green;
             }
         }
 
@@ -54,32 +73,40 @@ body{
             margin-bottom: 12px;
 
             .ee-tab-header {
-                padding: 12px;
+                padding: 6px 12px;
                 margin: 6px;
+                font-size: .8em;
             }
 
             .ee-tab-header.active {
                 color: white;
-                background-color: #A9A9A9;
+                background-color: #333333;
                 border-radius: 10px;
             }
         }
 
-        .ee-tab-content{
+        .ee-tab-content {
             display: none;
         }
-        .ee-tab-content.active{
+
+        .ee-tab-content.active {
             display: block;
         }
+
+        .new-task-title{
+            @include font-style;
+        }
     }
+
 }
 
-body.easy-editor-on{
+body.easy-editor-on {
     position: relative;
     // height: 50vh;
     margin-bottom: 50vh;
     overflow-y: auto;
-    #easy-editor-sidebar{
+
+    #easy-editor-sidebar {
         bottom: 0;
     }
 }
@@ -106,6 +133,12 @@ body.easy-editor-on{
         top: 0;
         left: 0;
         height: 100vh;
+
+        .ee-logo {
+            .ee-header {
+                font-size: 1.3em;
+            }
+        }
     }
 
     body.easy-editor-on {

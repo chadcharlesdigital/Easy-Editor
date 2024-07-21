@@ -72,26 +72,32 @@ function NewTaskForm({ sidebarState }) {
     }, [sidebarState]);
 
 
+    const handleForm = (e) => {
+        e.preventDefault();
+        console.log(e);
+    }
+
     return (
-        <form>
-            <h3>Create Task</h3>
-            <label htmlFor="task-description">Instructions for developer:</label>
-            <textarea
-                id="task-description"
-                name="task-description"
-                value={taskDescription}
-                onChange={(e) => { setTaskDescription(e.target.value) }}>
-                {taskDescription}
-            </textarea>
+        <div className="form-wrapper">
+            <form className='new-task-form' onSubmit={handleForm}>
+                <h3 className='new-task-title'>Assign New Task:</h3>
+                <label htmlFor="task-description">Instructions for developer:</label>
+                <textarea
+                    id="task-description"
+                    name="task-description"
+                    value={taskDescription}
+                    onChange={(e) => { setTaskDescription(e.target.value) }}>
+                    {taskDescription}
+                </textarea>
+                <input type="hidden" name="target_element" value={targetElement} />
+                <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
+                <input type="hidden" name="url" value={window.location.href} />
+                <input type="hidden" name="user-agent" value={navigator.userAgent} />
 
-            <input type="text" name="target_element" value={targetElement} />
-            <input type="text" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
-            <input type="text" name="url" value={window.location.href} />
-            <input type="text" name="user-agent" value={navigator.userAgent} />
+                <input type="submit" value="Submit" />
 
-            <input type="submit" value="Submit" />
-            
-        </form>
+            </form>
+        </div>
     );
 }
 

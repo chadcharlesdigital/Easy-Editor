@@ -20,7 +20,24 @@
 
 .easy-editor-on{
     .ee-highlighted, .ee-selected{
-        outline: 1px solid red;
+        outline: 1px solid $blue;
+        position: relative;
+    }
+
+    .ee-selected::after{
+        content: "+ New Task";
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: 1px solid #2036CE;
+    color: white;
+    background-color: #2036CE;
+    border-radius: 5px;
+    pointer-events: none;
+    padding: 2px;
+    font-size: 12px;
+    transform: translate(-20%, -80%);
+    @include font-style
     }
 
 }

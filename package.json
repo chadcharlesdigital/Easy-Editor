@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/chadcharlesdigital/Easy-Editor#readme",
   "dependencies": {
-    "@wordpress/scripts": "^28.2.0"
+    "@wordpress/scripts": "^28.2.0",
+    "bootstrap": "^5.3.3",
+    "sass": "^1.77.8"
   },
   "devDependencies": {
     "@wordpress/scripts": "^19.2.4",
