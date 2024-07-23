@@ -127,7 +127,7 @@ body.easy-editor-on {
 
     #easy-editor-sidebar {
 
-        padding-top: 32px;
+        margin-top: 32px;
         overflow: hidden;
         width: 0px;
         top: 0;
@@ -145,6 +145,13 @@ body.easy-editor-on {
         #easy-editor-sidebar {
             width: 300px;
             height: 100vh;
+
+
+            .ee-tab-content.active {
+                height: unset;
+                overflow: unset;
+            }
+
         }
     }
 }
