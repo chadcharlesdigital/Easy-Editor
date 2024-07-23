@@ -9,6 +9,7 @@ body {
 }
 
 #easy-editor-sidebar {
+    font-family: arial;
     transition: width ease .3s, bottom ease .3s;
     display: block;
     position: fixed;
@@ -21,7 +22,7 @@ body {
     .ee-header {
         display: flex;
         justify-content: space-between;
-        padding: 12px 20px;
+        padding: 8px 20px;
         align-items: stretch;
         border-bottom: 1px solid #e0e0e0;
         background-color: #f9f9f9;
@@ -70,12 +71,12 @@ body {
         .ee-tab-header-container {
             display: flex;
             border-bottom: 1px solid #000000;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
 
             .ee-tab-header {
                 padding: 6px 12px;
                 margin: 6px;
-                font-size: .8em;
+                font-size: .6em;
             }
 
             .ee-tab-header.active {
@@ -91,13 +92,15 @@ body {
 
         .ee-tab-content.active {
             display: block;
+            height: 28vh;
+            overflow: scroll;
         }
     }
 
 }
 
 body.easy-editor-on {
-    position: relative;
+    // position: relative;
     // height: 50vh;
     margin-bottom: 50vh;
     overflow-y: auto;

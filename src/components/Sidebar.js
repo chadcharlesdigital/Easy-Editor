@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Tabs from './Tabs';
 import NewTaskForm from './NewTaskForm';
-// import './Tabs'
 
 function Sidebar() {
 
@@ -12,6 +11,8 @@ function Sidebar() {
     setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
   };
 
+
+  //handles the triple tap to open editor on mobile
   let touchTimes = [];
 
   const tripleTap = (e) => {
@@ -64,7 +65,7 @@ function Sidebar() {
           <i className="fa-solid fa-x"></i>
         </div>
         <div className="ee-logo">
-          <h2 className="ee-headline"><span className="text-blue">EASY </span> <span className="text-green">EDITOR</span></h2>
+          <div className="ee-headline"><span className="text-blue">EASY </span> <span className="text-green">EDITOR</span></div>
         </div>
 
         <div className="ee-collapse">

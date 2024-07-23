@@ -45,6 +45,7 @@ function NewTaskForm({ sidebarState }) {
     const debouncedMouseMoveListener = useCallback(debounce(mouseMoveListener, 5), []);
 
     const clickListener = (e) => {
+        // alert('click');
         if (newElementIsValid(e.target) && sidebarState === 'open') {
             e.preventDefault();
             document.querySelectorAll('.ee-selected').forEach((el) => {
@@ -60,14 +61,14 @@ function NewTaskForm({ sidebarState }) {
     useEffect(() => {
         // console.log("task form effect is running");
         //add event listener listening for a click on any element
-        window.addEventListener('mousemove', debouncedMouseMoveListener);
-        window.addEventListener('click', clickListener);
+        document.addEventListener('mousemove', debouncedMouseMoveListener);
+        document.addEventListener('click', clickListener);
 
         return () => {
             // console.log("task form is Cleaning up");
             //remove event listener
-            window.removeEventListener('mousemove', debouncedMouseMoveListener);
-            window.removeEventListener('click', clickListener);
+            document.removeEventListener('mousemove', debouncedMouseMoveListener);
+            document.removeEventListener('click', clickListener);
         }
     }, [sidebarState]);
 
@@ -99,7 +100,6 @@ function NewTaskForm({ sidebarState }) {
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
                 <input type="hidden" name="url" value={window.location.href} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />
-                <br /> <br />
                 <input className='submit-button' type="submit" value="Submit" />
 
             </form>
