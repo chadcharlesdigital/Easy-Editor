@@ -80,8 +80,7 @@ function NewTaskForm({ sidebarState }) {
     return (
         <div className="form-wrapper">
             <form className='new-task-form' onSubmit={handleForm}>
-                <h3 className='new-task-title'>Assign Task</h3>
-                <label htmlFor="task-description">Instructions for developer:</label>
+                <label htmlFor="task-description">New Task</label>
                 <textarea
                     id="task-description"
                     name="task-description"
@@ -89,12 +88,19 @@ function NewTaskForm({ sidebarState }) {
                     onChange={(e) => { setTaskDescription(e.target.value) }}>
                     {taskDescription}
                 </textarea>
+                <label className='inline' htmlFor="file-upload"><i className="fa-solid fa-paperclip"></i>Attachments</label>
+                <input
+                    type="file"
+                    id="file-upload"
+                    name="file-upload"
+                />
+                <span className='input-description'>Upload files (optional)</span>
                 <input type="hidden" name="target_element" value={targetElement} />
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
                 <input type="hidden" name="url" value={window.location.href} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />
-
-                <input type="submit" value="Submit" />
+                <br /> <br />
+                <input className='submit-button' type="submit" value="Submit" />
 
             </form>
         </div>

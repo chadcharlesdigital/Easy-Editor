@@ -61,14 +61,14 @@ function Sidebar() {
       <div className="ee-header">
         <div className="ee-exit"
           onClick={(e) => { setSidebarVisible('closed') }}>
-          <i className="fa-solid fa-x fa-2x"></i>
+          <i className="fa-solid fa-x"></i>
         </div>
         <div className="ee-logo">
           <h2 className="ee-headline"><span className="text-blue">EASY </span> <span className="text-green">EDITOR</span></h2>
         </div>
 
         <div className="ee-collapse">
-          <i className="fa-sharp fa-solid fa-caret-down fa-2x"></i>
+          <i className="fa-sharp fa-solid fa-caret-down"></i>
         </div>
       </div>
       <Tabs
@@ -80,7 +80,7 @@ function Sidebar() {
             activeTab: 0,
           },
           {
-            title: "Active Tasks 3",
+            title: "Active Tasks (3)",
             content: <ul>
               <li>Task 1<br />lorum ipsum lorum nunmum lical spocil</li>
               <li>Task 2<br />lorum ipsum lorum nunmum lical spocil</li>
