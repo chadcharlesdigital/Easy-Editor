@@ -13,6 +13,7 @@ body {
     transition: width ease .3s, bottom ease .3s;
     display: block;
     position: fixed;
+    z-index: 9999999999;
     background-color: white;
     bottom: -45vh;
     border-top: 1px solid #000000;
