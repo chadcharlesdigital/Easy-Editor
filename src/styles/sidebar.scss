@@ -145,7 +145,7 @@ body.easy-editor-on {
         #easy-editor-sidebar {
             width: 300px;
             height: 100vh;
-
+            border-right: 2px grey solid;
 
             .ee-tab-content.active {
                 height: unset;

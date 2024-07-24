@@ -170,6 +170,10 @@ class Easy_Editor {
 		//add the toolbar item for the todos
 		$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'add_admin_toolbar_items', 999 );
 
+		//endpoints for creating new tasks
+		$this->loader->add_action('wp_ajax_easy_editor_create_new_task', $plugin_admin, 'easy_editor_create_new_task');
+		$this->loader->add_action('wp_ajax_nopriv_easy_editor_create_new_task', $plugin_admin, 'easy_editor_create_new_task'); // For non-logged-in users if needed
+
 	}
 
 	/**

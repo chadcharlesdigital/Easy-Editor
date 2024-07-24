@@ -144,4 +144,19 @@ class Easy_Editor_Admin {
 		}
 	}
 
+	public function easy_editor_create_new_task() {
+		// Check nonce for security
+		// check_ajax_referer('easy_editor_nonce', 'security');
+
+		// Process the request and prepare the response
+		$response = array(
+			'success' => true,
+			'message' => 'AJAX request processed successfully.',
+			'received_data' => sanitize_text_field($_POST['data'])
+		);
+	
+		// Send the response back to the client
+		wp_send_json($response);
+	}
+
 }
