@@ -77,23 +77,30 @@ function NewTaskForm({ sidebarState }) {
             setTargetElement(e.target);
             setTaskDescription('');
             setFormErrors({});
-            document.querySelector('#task-description').focus();
         }
     }
 
+    //effect for putting event listeners on the document
     useEffect(() => {
-        // console.log("task form effect is running");
+        console.log("task form effect is running");
         //add event listener listening for a click on any element
         document.addEventListener('mousemove', debouncedMouseMoveListener);
         document.addEventListener('click', clickListener);
 
         return () => {
-            // console.log("task form is Cleaning up");
+            console.log("task form is Cleaning up");
             //remove event listener
             document.removeEventListener('mousemove', debouncedMouseMoveListener);
             document.removeEventListener('click', clickListener);
         }
     }, [sidebarState]);
+
+    //effect for setting the focus when new elements are selected
+    useEffect(() => {
+        if (targetElement) {
+            document.querySelector('#task-description').focus();
+        }
+    }, [targetElement]);
 
 
     const handleForm = (e) => {
