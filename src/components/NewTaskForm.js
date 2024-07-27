@@ -2,11 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 function NewTaskForm({ sidebarState }) {
     const [taskDescription, setTaskDescription] = useState('');
+    const [fileUpload, setFileUpload] = useState('');
     const [targetElement, setTargetElement] = useState('');
     const [formErrors, setFormErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
+    //abstract this to a utility file
     const targetElementUniquePath = (element) => {
-        // let element = targetElement;
         if (!element === '' && element.tagName.toLowerCase() === 'html') {
             return 'html';
         }
@@ -65,6 +67,7 @@ function NewTaskForm({ sidebarState }) {
 
     const debouncedMouseMoveListener = useCallback(debounce(mouseMoveListener, 5), []);
 
+
     const clickListener = (e) => {
         // alert('click');
         if (newElementIsValid(e.target) && sidebarState === 'open') {
@@ -75,20 +78,20 @@ function NewTaskForm({ sidebarState }) {
             e.target.classList.add('ee-selected');
 
             setTargetElement(e.target);
-            setTaskDescription('');
-            setFormErrors({});
+            // setTaskDescription('');
+            // setFormErrors({});
         }
     }
 
     //effect for putting event listeners on the document
     useEffect(() => {
-        console.log("task form effect is running");
+        // console.log("task form effect is running");
         //add event listener listening for a click on any element
         document.addEventListener('mousemove', debouncedMouseMoveListener);
         document.addEventListener('click', clickListener);
 
         return () => {
-            console.log("task form is Cleaning up");
+            // console.log("task form is Cleaning up");
             //remove event listener
             document.removeEventListener('mousemove', debouncedMouseMoveListener);
             document.removeEventListener('click', clickListener);
@@ -97,64 +100,86 @@ function NewTaskForm({ sidebarState }) {
 
     //effect for setting the focus when new elements are selected
     useEffect(() => {
+
+        //this just stops the code from running on the first render when targetElement is null
         if (targetElement) {
-            document.querySelector('#task-description').focus();
+            setTaskDescription('');
+            setFormErrors({});
+            setFileUpload('');
+
+
+            if (targetElement && window.innerWidth > 783) {
+                document.querySelector('#task-description').focus();
+            }
+
         }
     }, [targetElement]);
 
 
     const handleForm = (e) => {
         e.preventDefault();
-        const formData = {};
-        formData.description = e.target[0].value;
-        formData.fileUpload = e.target[1].value;
-        formData.targetElement = e.target[2].value;
-        formData.screenSize = e.target[3].value;
-        formData.url = e.target[4].value;
-        formData.userAgent = e.target[5].value;
+        setIsLoading("Loading...")
+        // const formData = {};
+        // formData.description = e.target[0].value;
+        // formData.fileUpload = e.target[1].value;
+        // formData.targetElement = e.target[2].value;
+        // formData.screenSize = e.target[3].value;
+        // formData.url = e.target[4].value;
+        // formData.userAgent = e.target[5].value;
         // console.log(description, fileUpload, targetElement, screenSize, url, userAgent);
+
+        const formData = new FormData(e.target);
+        console.log(formData.get("file-upload"));
 
         //validate on front end
         const errors = {};
-        if (formData.description.trim() === '') {
+        if (!formData.get('task-description') || formData.get('task-description').trim() == '') {
             errors.description = 'Please enter a description';
         }
 
+        //if there are errors, set the state and return
         setFormErrors(errors);
         if (Object.keys(errors).length > 0) {
+            setIsLoading(false);
             return;
         }
 
         //send data to server
 
-        formData.nonce = easy_editor_data.nonce;
-        formData.action = "easy_editor_create_new_task"
+        // formData.nonce = easy_editor_data.nonce;
+        // formData.action = "easy_editor_create_new_task"
+
+        formData.append('nonce', easy_editor_data.nonce);
+        formData.append('action', 'easy_editor_create_new_task');
 
         const url = easy_editor_data.ajax_url; // Replace with your server endpoint
         console.log('sending to the server ', url);
 
         fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-WP-Nonce': formData.nonce
-            },
-            body: new URLSearchParams(formData)
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded',
+            //     'X-WP-Nonce': formData.nonce
+            // },
+
+            body: formData
         })
             .then(response => response.json())
-            .then(formData => {
+            .then(responseData => {
                 // Handle the response from the server
-                console.log(formData);
+                console.log(responseData);
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error("Error:", error);
+                setIsLoading(false);
             });
 
     }
 
     return (
         <div className="form-wrapper">
-            <form className='new-task-form' onSubmit={handleForm}>
+            <form enctype="multipart/form-data" className='new-task-form' onSubmit={handleForm}>
                 <label htmlFor="task-description">New Task</label>
                 <textarea
                     id="task-description"
@@ -171,13 +196,15 @@ function NewTaskForm({ sidebarState }) {
                     type="file"
                     id="file-upload"
                     name="file-upload"
+                    value={fileUpload}
+                    onChange={(e) => { setFileUpload(e.target.value) }}
                 />
                 <span className='input-description'>Upload files (optional)</span>
-                <input type="hidden" name="target_element" value={targetElementUniquePath(targetElement)} />
+                <input type="hidden" name="target-element" value={targetElementUniquePath(targetElement)} />
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
                 <input type="hidden" name="url" value={window.location.href} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />
-                <input className='submit-button' type="submit" value="Submit" />
+                <input className='submit-button' type="submit" value={isLoading ? isLoading : "Submit"} />
 
             </form>
         </div>

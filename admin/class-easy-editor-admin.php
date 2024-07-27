@@ -20,7 +20,8 @@
  * @subpackage Easy_Editor/admin
  * @author     Chad Charles <chad@digitaleasyllc.com>
  */
-class Easy_Editor_Admin {
+class Easy_Editor_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,7 +48,8 @@ class Easy_Editor_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
@@ -59,7 +61,8 @@ class Easy_Editor_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,7 +76,7 @@ class Easy_Editor_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/easy-editor-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/easy-editor-admin.css', array(), $this->version, 'all');
 
 	}
 
@@ -82,7 +85,8 @@ class Easy_Editor_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,7 +100,7 @@ class Easy_Editor_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/easy-editor-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/easy-editor-admin.js', array('jquery'), $this->version, false);
 
 	}
 
@@ -108,14 +112,14 @@ class Easy_Editor_Admin {
 	 */
 	public function add_admin_toolbar_items($wp_admin_bar)
 	{
-		if ( Easy_Editor_Helper::check_user_capability_for_todos('c') && !is_admin() ) {
+		if (Easy_Editor_Helper::check_user_capability_for_tasks('c') && !is_admin()) {
 			// Add the parent item
 			$wp_admin_bar->add_node(
 				array(
 					'id' => 'easy-editor',
 					'title' => '<span class="on-off-light">Easy Editor</span>',
 					'href' => '#',
-					
+
 				)
 			);
 
@@ -144,19 +148,107 @@ class Easy_Editor_Admin {
 		}
 	}
 
-	public function easy_editor_create_new_task() {
+	public function easy_editor_create_new_task()
+	{
 		// Check nonce for security
-		// check_ajax_referer('easy_editor_nonce', 'security');
+		if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'easy_editor_nonce')) {
+			wp_send_json(array('success' => false, 'message' => 'Invalid nonce.'));
+			exit;
+		}
+		// Sanitize and retrieve form fields
+		$description = isset($_POST['task-description']) ? sanitize_text_field($_POST['task-description']) : '';
+		$file_upload = isset($_FILES['file-upload']['name']) && !empty($_FILES['file-upload']['name']) ? $_FILES['file-upload'] : '';
+		$targetElement = isset($_POST['target-element']) ? sanitize_text_field($_POST['target-element']) : '';
+		$screenSize = isset($_POST['screen-size']) ? sanitize_text_field($_POST['screen-size']) : '';
+		$url = isset($_POST['url']) ? sanitize_text_field($_POST['url']) : '';
+		$userAgent = isset($_POST['user-agent']) ? sanitize_text_field($_POST['user-agent']) : '';
 
-		// Process the request and prepare the response
+
+
+		// further validation
+		if (empty($description)) {
+			wp_send_json(array('success' => false, 'message' => 'Description is required.'));
+			exit;
+		}
+
+		// This field is optional so if it isn't empty we validate it and if theres an error we return that
+		if (isset($file_upload['name']) && !empty($file_upload['name']) && $file_upload_errors = Easy_Editor_Helper::file_is_invalid($file_upload)) {
+			wp_send_json(array('success' => false, 'message' => $file_upload_errors));
+			exit;
+		}
+
+
+		//ok the file is valid lets upload it to the wp media library
+		if (isset($file_upload['name']) && !empty($file_upload['name'])) {
+
+			if (!function_exists('wp_handle_upload')) {
+				require_once (ABSPATH . 'wp-admin/includes/file.php');
+				require_once (ABSPATH . 'wp-admin/includes/media.php');
+				require_once (ABSPATH . 'wp-admin/includes/image.php');
+			}
+
+			$wp_media = wp_handle_upload($file_upload, array('test_form' => false));
+
+			if ($wp_media && !isset($wp_media['error'])) {
+				// File is successfully uploaded, now insert it into the media library
+				$file_path = $wp_media['file'];
+				$file_url = $wp_media['url'];
+				$file_type = $wp_media['type'];
+				$file_name = basename($file_path);
+
+				$attachment = array(
+					'guid' => $file_url,
+					'post_mime_type' => $file_type,
+					'post_title' => sanitize_file_name($file_name),
+					'post_content' => '',
+					'post_status' => 'inherit'
+				);
+
+				$attachment_id = wp_insert_attachment($attachment, $file_path);
+
+				if (!is_wp_error($attachment_id)) {
+					// Generate the metadata for the attachment and update the database record
+					$attachment_data = wp_generate_attachment_metadata($attachment_id, $file_path);
+					wp_update_attachment_metadata($attachment_id, $attachment_data);
+					$file_upload_id = $attachment_id;
+				} else {
+					wp_send_json(array('success' => false, 'message' => 'Failed to insert attachment.'));
+					exit;
+				}
+			} else {
+				/*
+				 * Error generated by _wp_handle_upload()
+				 * @see _wp_handle_upload() in wp-admin/includes/file.php
+				 */
+				wp_send_json(array('success' => false, 'message' => $wp_media['error']));
+				exit;
+			}
+
+		}
+
+		//ok file is media library lets create a new task post type and populate it
+		$task_post = array(
+			'post_title' => 'New Task2',
+			'post_content' => $description,
+			'post_status' => 'publish',
+			'post_type' => 'task',
+		);
+
+		$task_id = wp_insert_post($task_post);
+
+		if ( $task_id ){
+			// update_post_meta($post_id, '_task_body', $description);
+		}
+
+		// Prepare response data
 		$response = array(
 			'success' => true,
-			'message' => 'AJAX request processed successfully.',
-			'received_data' => sanitize_text_field($_POST['data'])
+			'message' => 'Task Created Successfully'
 		);
-	
+
 		// Send the response back to the client
-		wp_send_json($response);
+		wp_send_json(array('success' => true, 'message' => "new task created " . $task_id));
+		exit;
 	}
 
 }

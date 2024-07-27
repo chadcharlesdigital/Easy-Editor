@@ -32,9 +32,9 @@ class Easy_Editor_Activator
 	 */
 	public static function activate()
 	{
-		flush_rewrite_rules();
 		self::register_website_manager_role();
-		self::add_todo_capabilities_to_admin();
+		self::add_task_capabilities_to_admin();
+		flush_rewrite_rules();
 	}
 
 	private static function register_website_manager_role()
@@ -46,17 +46,17 @@ class Easy_Editor_Activator
 				// Basic capability to read the dashboard
 				'read' => true,
 
-				// Capabilities for 'Todos' custom post type, utilizing 'todo' capabilities
-				'edit_todos' => true,
-				'publish_todos' => true,
-				'delete_todos' => true,
-				'edit_others_todos' => true,
-				'delete_others_todos' => true,
-				'read_private_todos' => true,
-				'edit_published_todos' => true,
-				'delete_published_todos' => true,
-				'edit_private_todos' => true,
-				'delete_private_todos' => true,
+				// Capabilities for 'Todos' custom post type, utilizing 'task' capabilities
+				'edit_tasks' => true,
+				'publish_tasks' => true,
+				'delete_tasks' => true,
+				'edit_others_tasks' => true,
+				'delete_others_tasks' => true,
+				'read_private_tasks' => true,
+				'edit_published_tasks' => true,
+				'delete_published_tasks' => true,
+				'edit_private_tasks' => true,
+				'delete_private_tasks' => true,
 
 
 				// Since 'capability_type' is 'post', standard post capabilities apply.
@@ -96,23 +96,26 @@ class Easy_Editor_Activator
 		);
 	}
 
-	private static function add_todo_capabilities_to_admin() {
+	private static function add_task_capabilities_to_admin() {
 		// Get the administrator role object
 		$admin_role = get_role('administrator');
 	
 		// Check if the role exists
 		if (!is_null($admin_role)) {
 			// Add custom capabilities related to 'Todo' CPT
-			$admin_role->add_cap('edit_todos');
-			$admin_role->add_cap('edit_others_todos');
-			$admin_role->add_cap('publish_todos');
-			$admin_role->add_cap('read_private_todos');
-			$admin_role->add_cap('delete_todos');
-			$admin_role->add_cap('delete_private_todos');
-			$admin_role->add_cap('delete_published_todos');
-			$admin_role->add_cap('delete_others_todos');
-			$admin_role->add_cap('edit_private_todos');
-			$admin_role->add_cap('edit_published_todos');
+			$admin_role->add_cap('edit_task');
+            $admin_role->add_cap('read_task');
+            $admin_role->add_cap('delete_task');
+            $admin_role->add_cap('edit_tasks');
+            $admin_role->add_cap('edit_others_tasks');
+            $admin_role->add_cap('publish_tasks');
+            $admin_role->add_cap('read_private_tasks');
+            $admin_role->add_cap('delete_tasks');
+            $admin_role->add_cap('delete_private_tasks');
+            $admin_role->add_cap('delete_published_tasks');
+            $admin_role->add_cap('delete_others_tasks');
+            $admin_role->add_cap('edit_private_tasks');
+            $admin_role->add_cap('edit_published_tasks');
 			// Repeat for any other 'Todo' capabilities you need to add
 		}
 	}
