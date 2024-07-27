@@ -54,4 +54,32 @@ class Easy_Editor_Helper {
         }
         return false;
     }
+
+    public static function shorten($string) {
+        // Split the string into an array of words
+        $words = explode(' ', $string);
+        
+        // Check if the string has 5 words or less
+        if (count($words) <= 5) {
+            return $string;
+        }
+        
+        // Get the first 5 words and join them into a string
+        $shortened = implode(' ', array_slice($words, 0, 5));
+        
+        // Add the trailing "..."
+        return $shortened . '...';
+    }
+
+    public static function get_comments_from_post($post_id) {
+        // Retrieve the comments array from the post meta
+        $comments = get_post_meta($post_id, 'comments', true);
+    
+        // If there are no comments, return an empty array
+        if (!is_array($comments)) {
+            $comments = array();
+        }
+    
+        return $comments;
+    }
 }

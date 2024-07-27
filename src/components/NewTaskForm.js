@@ -6,6 +6,7 @@ function NewTaskForm({ sidebarState }) {
     const [targetElement, setTargetElement] = useState('');
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [formMessage, setFormMessage] = useState();
 
     //abstract this to a utility file
     const targetElementUniquePath = (element) => {
@@ -72,14 +73,12 @@ function NewTaskForm({ sidebarState }) {
         // alert('click');
         if (newElementIsValid(e.target) && sidebarState === 'open') {
             e.preventDefault();
-            document.querySelectorAll('.ee-selected').forEach((el) => {
-                el.classList.remove('ee-selected');
-            });
-            e.target.classList.add('ee-selected');
+            // document.querySelectorAll('.ee-selected').forEach((el) => {
+            //     el.classList.remove('ee-selected');
+            // });
+            // e.target.classList.add('ee-selected');
 
             setTargetElement(e.target);
-            // setTaskDescription('');
-            // setFormErrors({});
         }
     }
 
@@ -101,11 +100,17 @@ function NewTaskForm({ sidebarState }) {
     //effect for setting the focus when new elements are selected
     useEffect(() => {
 
+        document.querySelectorAll('.ee-selected').forEach((el) => {
+            el.classList.remove('ee-selected');
+        });
+
         //this just stops the code from running on the first render when targetElement is null
         if (targetElement) {
             setTaskDescription('');
             setFormErrors({});
             setFileUpload('');
+            setFormMessage('');
+            targetElement.classList.add('ee-selected');
 
 
             if (targetElement && window.innerWidth > 783) {
@@ -157,11 +162,6 @@ function NewTaskForm({ sidebarState }) {
 
         fetch(url, {
             method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/x-www-form-urlencoded',
-            //     'X-WP-Nonce': formData.nonce
-            // },
-
             body: formData
         })
             .then(response => response.json())
@@ -169,6 +169,27 @@ function NewTaskForm({ sidebarState }) {
                 // Handle the response from the server
                 console.log(responseData);
                 setIsLoading(false);
+
+                if (responseData.success) {
+                    //form submission successfull
+                    console.log('Task created successfully');
+                    setFormMessage('Task created successfully.')
+                    setTargetElement('');
+                    setTaskDescription('');
+                } else {
+                    //handle the error
+                    console.log('There was an error creating the task');
+
+                    if (responseData.errorField === 'description') {
+                        errors.description = responseData.message;
+                    }
+                    if (responseData.errorField === 'file-upload') {
+                        errors.fileUpload = responseData.message;
+                    }
+
+                    console.log(errors)
+                    setFormErrors( errors );
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -198,13 +219,22 @@ function NewTaskForm({ sidebarState }) {
                     name="file-upload"
                     value={fileUpload}
                     onChange={(e) => { setFileUpload(e.target.value) }}
+                    disabled={!targetElement}
+
                 />
-                <span className='input-description'>Upload files (optional)</span>
+                <span className={formErrors.fileUpload ? 'input-description error' : 'input-description'}>{formErrors.fileUpload ? formErrors.fileUpload : 'Upload files (optional)'}</span>
                 <input type="hidden" name="target-element" value={targetElementUniquePath(targetElement)} />
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
                 <input type="hidden" name="url" value={window.location.href} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />
-                <input className='submit-button' type="submit" value={isLoading ? isLoading : "Submit"} />
+                <input 
+                className='submit-button' 
+                type="submit" 
+                value={isLoading ? isLoading : "Submit"} 
+                disabled={!targetElement}
+                />
+
+                <span className="form-message">{formMessage}</span>
 
             </form>
         </div>

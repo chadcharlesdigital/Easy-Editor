@@ -31,7 +31,7 @@ class Easy_Editor_Tasks
         $args = array(
             'label' => __('Task', 'easy-editor'),
             'labels' => $labels,
-            'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'custom-fields'),
+            'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'custom-fields', 'author'),
             'hierarchical' => false,
             'public' => true,
             'show_ui' => true,
