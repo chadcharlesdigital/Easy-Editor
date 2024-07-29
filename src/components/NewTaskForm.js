@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import FormatURL from '../lib/FormatURL'
 
 
-function NewTaskForm({ sidebarState }) {
+function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
     const [taskDescription, setTaskDescription] = useState('');
     const [fileUpload, setFileUpload] = useState('');
     const [targetElement, setTargetElement] = useState('');
@@ -82,6 +82,7 @@ function NewTaskForm({ sidebarState }) {
             // e.target.classList.add('ee-selected');
 
             setTargetElement(e.target);
+            setActiveTab(0);
         }
     }
 
@@ -179,6 +180,7 @@ function NewTaskForm({ sidebarState }) {
                     setFormMessage('Task created successfully.')
                     setTargetElement('');
                     setTaskDescription('');
+                    fetchActiveTasks();
                 } else {
                     //handle the error
                     console.log('There was an error creating the task');

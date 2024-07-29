@@ -11,15 +11,8 @@ function Sidebar() {
 
   const [sidebarVisible, setSidebarVisible] = React.useState("closed");
   const [activeTasks, setActiveTasks] = React.useState({status:"loading", body:[]});
+  const [activeTab, setActiveTab] = React.useState(0);
 
-  //this and activetakstabheader are used to display the number of active tasks on the tab header
-  // const numberOfActiveTasks = () => {
-  //   if (activeTasks.length < 1 ) {
-  //     return 'loading...';
-  //   } else {
-  //     return activeTasks.length;
-  //   }
-  // }
 
   const activeTasksTabHeader = () => {
     let tabHeader;
@@ -61,6 +54,16 @@ function Sidebar() {
     }
   }
 
+  const fetchActiveTasks = () => {
+    wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
+      console.log(tasks);
+      setActiveTasks({status:"success",body:tasks});
+    }).catch(error => {
+      console.log('error', error)
+      setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
+    });
+  }
+
   //sets up the listeners for opening the sidebar
   useEffect(() => {
     const sidebarToggles = document.querySelectorAll(".ee-sidebar-toggle");
@@ -93,14 +96,14 @@ function Sidebar() {
   //this is responsible for fetching tasks from the server
   useEffect(() => {
     console.log('fetching tasks')
-    wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
-      console.log(tasks);
-      setActiveTasks({status:"success",body:tasks});
-    }).catch(error => {
-      console.log('error', error)
-      setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
-    });
-
+    // wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
+    //   console.log(tasks);
+    //   setActiveTasks({status:"success",body:tasks});
+    // }).catch(error => {
+    //   console.log('error', error)
+    //   setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
+    // });
+    fetchActiveTasks(); 
 
   }, []);
 
@@ -125,13 +128,17 @@ function Sidebar() {
           {
             title: "New Task",
             content: <NewTaskForm
-              sidebarState={sidebarVisible} />,
-            activeTab: 0,
+              sidebarState={sidebarVisible}
+              fetchActiveTasks={fetchActiveTasks}
+              setActiveTab={setActiveTab} />,
+            activeTab: activeTab,
+            setActiveTab: setActiveTab
           },
           {
             title: activeTasksTabHeader(),
             content: <ActiveTasks tasks={activeTasks} />,
-            activeTab: 0
+            activeTab: activeTab,
+            setActiveTab: setActiveTab
           }
         ]} />
     </div>
