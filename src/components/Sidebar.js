@@ -1,11 +1,43 @@
 import React, { useEffect } from 'react'
 import Tabs from './Tabs';
 import NewTaskForm from './NewTaskForm';
+import ActiveTasks from './ActiveTasks';
 
+
+/*
+Top level component
+*/
 function Sidebar() {
 
   const [sidebarVisible, setSidebarVisible] = React.useState("closed");
+  const [activeTasks, setActiveTasks] = React.useState({status:"loading", body:[]});
 
+  //this and activetakstabheader are used to display the number of active tasks on the tab header
+  // const numberOfActiveTasks = () => {
+  //   if (activeTasks.length < 1 ) {
+  //     return 'loading...';
+  //   } else {
+  //     return activeTasks.length;
+  //   }
+  // }
+
+  const activeTasksTabHeader = () => {
+    let tabHeader;
+    switch (activeTasks.status) {
+      case "loading":
+        tabHeader = "Loading...";
+        break;
+      case "success":
+      tabHeader = `Active Tasks (${activeTasks.body.length})`;
+        break;
+      case "error":
+        tabHeader = "Active Tasks (0)";
+    }
+
+    return tabHeader;
+  }
+
+  //click listener applied to all elements with a class of ee-sidebar-toggle
   const toggleSidebar = (e) => {
     e.preventDefault();
     setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
@@ -29,6 +61,7 @@ function Sidebar() {
     }
   }
 
+  //sets up the listeners for opening the sidebar
   useEffect(() => {
     const sidebarToggles = document.querySelectorAll(".ee-sidebar-toggle");
     sidebarToggles.forEach(toggle => {
@@ -39,13 +72,13 @@ function Sidebar() {
 
 
     if (sidebarVisible === "open") {
-        document.body.classList.add('easy-editor-on');
-        console.log('adding easy editor to the body');
-      } else if (sidebarVisible === "closed") {
-        document.body.classList.remove('easy-editor-on');
-        console.log('removing easy editor to the body');
+      document.body.classList.add('easy-editor-on');
+      // console.log('adding easy editor to the body');
+    } else if (sidebarVisible === "closed") {
+      document.body.classList.remove('easy-editor-on');
+      // console.log('removing easy editor to the body');
 
-      }
+    }
 
     return () => {
       sidebarToggles.forEach(toggle => {
@@ -55,6 +88,21 @@ function Sidebar() {
       document.removeEventListener('touchend', tripleTap);
     };
   }, [sidebarVisible]);
+
+
+  //this is responsible for fetching tasks from the server
+  useEffect(() => {
+    console.log('fetching tasks')
+    wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
+      console.log(tasks);
+      setActiveTasks({status:"success",body:tasks});
+    }).catch(error => {
+      console.log('error', error)
+      setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
+    });
+
+
+  }, []);
 
   return (
     <div id="easy-editor-sidebar">
@@ -81,12 +129,8 @@ function Sidebar() {
             activeTab: 0,
           },
           {
-            title: "Active Tasks (3)",
-            content: <ul>
-              <li>Task 1<br />lorum ipsum lorum nunmum lical spocil</li>
-              <li>Task 2<br />lorum ipsum lorum nunmum lical spocil</li>
-              <li>Task 3<br />lorum ipsum lorum nunmum lical spocil</li>
-            </ul>,
+            title: activeTasksTabHeader(),
+            content: <ActiveTasks tasks={activeTasks} />,
             activeTab: 0
           }
         ]} />

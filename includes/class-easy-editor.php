@@ -172,8 +172,10 @@ class Easy_Editor {
 
 		//endpoints for creating new tasks
 		$this->loader->add_action('wp_ajax_easy_editor_create_new_task', $plugin_admin, 'easy_editor_create_new_task');
-		$this->loader->add_action('wp_ajax_nopriv_easy_editor_create_new_task', $plugin_admin, 'easy_editor_create_new_task'); // For non-logged-in users if needed
+		// $this->loader->add_action('wp_ajax_nopriv_easy_editor_create_new_task', $plugin_admin, 'easy_editor_create_new_task'); // For non-logged-in users if needed
+		$this->loader->add_action('rest_api_init',$plugin_admin, 'register_API_routes');
 
+		$this->loader->add_action('rest_api_init', $plugin_admin, 'register_tasks_fields');
 	}
 
 	/**

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import FormatURL from '../lib/FormatURL'
+
 
 function NewTaskForm({ sidebarState }) {
     const [taskDescription, setTaskDescription] = useState('');
@@ -7,6 +9,7 @@ function NewTaskForm({ sidebarState }) {
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [formMessage, setFormMessage] = useState();
+    
 
     //abstract this to a utility file
     const targetElementUniquePath = (element) => {
@@ -134,7 +137,7 @@ function NewTaskForm({ sidebarState }) {
         // console.log(description, fileUpload, targetElement, screenSize, url, userAgent);
 
         const formData = new FormData(e.target);
-        console.log(formData.get("file-upload"));
+        console.log(formData);
 
         //validate on front end
         const errors = {};
@@ -188,7 +191,7 @@ function NewTaskForm({ sidebarState }) {
                     }
 
                     console.log(errors)
-                    setFormErrors( errors );
+                    setFormErrors(errors);
                 }
             })
             .catch(error => {
@@ -225,13 +228,13 @@ function NewTaskForm({ sidebarState }) {
                 <span className={formErrors.fileUpload ? 'input-description error' : 'input-description'}>{formErrors.fileUpload ? formErrors.fileUpload : 'Upload files (optional)'}</span>
                 <input type="hidden" name="target-element" value={targetElementUniquePath(targetElement)} />
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
-                <input type="hidden" name="url" value={window.location.href} />
+                <input type="hidden" name="url" value={FormatURL(window.location.href)} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />
-                <input 
-                className='submit-button' 
-                type="submit" 
-                value={isLoading ? isLoading : "Submit"} 
-                disabled={!targetElement}
+                <input
+                    className='submit-button'
+                    type="submit"
+                    value={isLoading ? isLoading : "Submit"}
+                    disabled={!targetElement}
                 />
 
                 <span className="form-message">{formMessage}</span>

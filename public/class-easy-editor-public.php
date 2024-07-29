@@ -106,7 +106,7 @@ class Easy_Editor_Public
 		if (is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_tasks('u') && !is_admin()) {
 			// Get the current page ID 
 			$current_page_id = get_the_ID();
-			wp_enqueue_script('easy-editor-react', plugin_dir_url(__FILE__) . "../build/index.js", array('wp-element'), '1.0', true);
+			wp_enqueue_script('easy-editor-react', plugin_dir_url(__FILE__) . "../build/index.js", array( 'wp-element', 'wp-api' ), '1.0', true);
 			// Localize the script with new data
 			$script_data = array(
 				'current_page_id' => $current_page_id,
