@@ -49,7 +49,6 @@ function Sidebar() {
 
     if (touchTimes.length === 3) {
       setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
-      e.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       touchTimes = []; // Reset the array after detecting a triple tap
     }
   }

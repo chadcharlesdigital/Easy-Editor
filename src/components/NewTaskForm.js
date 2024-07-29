@@ -1,35 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import FormatURL from '../lib/FormatURL'
+import TargetElementUniquePath from '../lib/targetElementUniquePath';
 
 
 function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
+    //form fields
     const [taskDescription, setTaskDescription] = useState('');
     const [fileUpload, setFileUpload] = useState('');
     const [targetElement, setTargetElement] = useState('');
+
+    //form status and error handing
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [formMessage, setFormMessage] = useState();
-    
-
-    //abstract this to a utility file
-    const targetElementUniquePath = (element) => {
-        if (!element === '' && element.tagName.toLowerCase() === 'html') {
-            return 'html';
-        }
-
-        let path = [];
-        while (element.parentElement) {
-            let tagName = element.tagName.toLowerCase();
-            let siblings = Array.from(element.parentElement.children).filter(el => el.tagName === element.tagName);
-            if (siblings.length > 1) {
-                let index = siblings.indexOf(element) + 1;
-                tagName += `:nth-of-type(${index})`;
-            }
-            path.unshift(tagName);
-            element = element.parentElement;
-        }
-        return path.join(' > ');
-    }
 
     const debounce = (func, delay) => {
         let inDebounce;
@@ -41,13 +24,13 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
         };
     };
 
-    let currentHoveredElement = null;
 
     const newElementIsValid = (element) => {
         // Check if the element is a child of #easy-editor-sidebar or #wpadminbar
         return !element.closest('#easy-editor-sidebar') && !element.closest('#wpadminbar');
     }
 
+    let currentHoveredElement = null;
     const mouseMoveListener = (e) => {
         const newHoveredElement = document.elementFromPoint(e.clientX, e.clientY);
 
@@ -73,13 +56,8 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
 
 
     const clickListener = (e) => {
-        // alert('click');
         if (newElementIsValid(e.target) && sidebarState === 'open') {
             e.preventDefault();
-            // document.querySelectorAll('.ee-selected').forEach((el) => {
-            //     el.classList.remove('ee-selected');
-            // });
-            // e.target.classList.add('ee-selected');
 
             setTargetElement(e.target);
             setActiveTab(0);
@@ -101,7 +79,7 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
         }
     }, [sidebarState]);
 
-    //effect for setting the focus when new elements are selected
+    //effect for updates when the targetElement changes E.I. when a user selects an element
     useEffect(() => {
 
         document.querySelectorAll('.ee-selected').forEach((el) => {
@@ -116,9 +94,11 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
             setFormMessage('');
             targetElement.classList.add('ee-selected');
 
-
+            //if the client is a desktop focus on the form, if its a mobile device scroll to the target element
             if (targetElement && window.innerWidth > 783) {
                 document.querySelector('#task-description').focus();
+            }else{
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
         }
@@ -128,17 +108,8 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
     const handleForm = (e) => {
         e.preventDefault();
         setIsLoading("Loading...")
-        // const formData = {};
-        // formData.description = e.target[0].value;
-        // formData.fileUpload = e.target[1].value;
-        // formData.targetElement = e.target[2].value;
-        // formData.screenSize = e.target[3].value;
-        // formData.url = e.target[4].value;
-        // formData.userAgent = e.target[5].value;
-        // console.log(description, fileUpload, targetElement, screenSize, url, userAgent);
 
         const formData = new FormData(e.target);
-        console.log(formData);
 
         //validate on front end
         const errors = {};
@@ -154,10 +125,6 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
         }
 
         //send data to server
-
-        // formData.nonce = easy_editor_data.nonce;
-        // formData.action = "easy_editor_create_new_task"
-
         formData.append('nonce', easy_editor_data.nonce);
         formData.append('action', 'easy_editor_create_new_task');
 
@@ -181,6 +148,7 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
                     setTargetElement('');
                     setTaskDescription('');
                     fetchActiveTasks();
+                    setFileUpload('');
                 } else {
                     //handle the error
                     console.log('There was an error creating the task');
@@ -228,7 +196,7 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
 
                 />
                 <span className={formErrors.fileUpload ? 'input-description error' : 'input-description'}>{formErrors.fileUpload ? formErrors.fileUpload : 'Upload files (optional)'}</span>
-                <input type="hidden" name="target-element" value={targetElementUniquePath(targetElement)} />
+                <input type="hidden" name="target-element" value={TargetElementUniquePath(targetElement)} />
                 <input type="hidden" name="screen-size" value={window.innerWidth + 'x' + window.innerHeight} />
                 <input type="hidden" name="url" value={FormatURL(window.location.href)} />
                 <input type="hidden" name="user-agent" value={navigator.userAgent} />

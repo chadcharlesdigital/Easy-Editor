@@ -27,6 +27,7 @@
     .ee-selected{
         animation: shake 1s;
         animation-iteration-count: 1;
+        scroll-margin-top: 10vh;
     }
 
     .ee-selected::after{
