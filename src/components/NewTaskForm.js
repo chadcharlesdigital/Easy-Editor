@@ -128,7 +128,7 @@ function NewTaskForm({ sidebarState, fetchActiveTasks, setActiveTab }) {
         formData.append('nonce', easy_editor_data.nonce);
         formData.append('action', 'easy_editor_create_new_task');
 
-        const url = easy_editor_data.ajax_url; // Replace with your server endpoint
+        const url = easy_editor_data.ajax_url; 
         console.log('sending to the server ', url);
 
         fetch(url, {

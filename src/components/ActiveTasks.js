@@ -1,45 +1,65 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Task from './task'
+import FormatURL from '../lib/FormatURL'
+import PageTasks from './PageTasks'
+
+// import SortTasks from '../lib/SortTasks'
 
 function ActiveTasks({ tasks }) {
 
-    const sortTasks = () => {
-        const sortedTasksToBeReturned = {};
-        tasks.body.forEach((task) => {
-            if (typeof (sortedTasksToBeReturned[task['ee-data'].URL]) !== 'object') {
-                sortedTasksToBeReturned[task['ee-data'].URL] = [];
-            }
-            sortedTasksToBeReturned[task['ee-data'].URL].push(task);
-        });
-        return sortedTasksToBeReturned;
-    }
+    //takes tasks sorts them and saves that in state
+    const [sortedTasks, setSortedTasks] = React.useState();
+    const [tasksForThisURL, setTasksForThisURL] = React.useState();
 
-    const sortedTasks = tasks.status === 'success' ? sortTasks() : "";
-    console.log('sortedTasks', sortedTasks);
+    //every time the tasks change sort and save them in state
+    useEffect(() => {
+        if (tasks && tasks.status === 'success') {
+            const sortedTasksToBeReturned = {};
+            tasks.body.forEach((task) => {
+                if (typeof (sortedTasksToBeReturned[task['ee-data'].URL]) !== 'object') {
+                    sortedTasksToBeReturned[task['ee-data'].URL] = [];
+                }
+                sortedTasksToBeReturned[task['ee-data'].URL].push(task);
+            });
+            setSortedTasks(sortedTasksToBeReturned);
 
-    const putTasks = () => {
-        if ( tasks.status === "success" ) {
-            if (tasks.body.length === 0 ){
-                return "No open tasks."
+            const currentURL = FormatURL(window.location.href);
+            if (sortedTasksToBeReturned[currentURL]) {
+                setTasksForThisURL(sortedTasksToBeReturned[currentURL]);
             }
-            return tasks.body.map(task => (
-                <Task key={task.id} task={task} />
-            ))
+        }
+    }, [tasks])
+
+        const fetchTasksSuccess = ()=>{
+        if(tasks.body.length === 0){
+            return "No Tasks Found";
+        } else {
+            return "Active Tasks";
         }
     }
+
+
     return (
         <div className="ee-active-tasks">
 
-            <span>
-                {tasks.status === 'success' ? "Current Tasks" : ""}
+            <div class="active-tasks-header">
+                {tasks.status === 'success' ? fetchTasksSuccess() : ""}
                 {tasks.status === 'loading' ? "Tasks Are Loading..." : ""}
                 {tasks.status === 'error' ? tasks.body : ""}
 
-            </span>
+            </div>
 
-            <ul>
-                {putTasks()}
-            </ul>
+            {/* if there are no tasks then output the no tasks message */}
+
+            {/* if there are tasks for this page output them first */}
+            {tasksForThisURL ? <PageTasks tasks={tasksForThisURL} />: ''}  
+
+            {/* output the rest of the pages */}
+            {sortedTasks ? Object.keys(sortedTasks).map((key, index) => {
+                if (key !== FormatURL(window.location.href)) {
+                    return <PageTasks tasks={sortedTasks[key]} />
+                }
+            }) : ''}
         </div>
     )
 }

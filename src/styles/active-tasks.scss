@@ -1,0 +1,65 @@
+.ee-active-tasks {
+
+    padding: 0px 15px;
+
+    .active-tasks-header{
+        font-size: 14px;
+    }
+
+    .ee-page-tasks {
+        border: 1px solid lightgrey;
+        border-right: none;
+        border-left: none;
+        .ee-page-tasks-header:hover {
+            background-color: #f1f1f1;
+        }
+
+        .ee-page-tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+
+            .task-page-url {
+                font-size: 12px;
+                color: #000000;
+                margin: 0px;
+
+                small {
+                    font-size: 12px;
+                    color: #323232;
+                    font-style: italic;
+                }
+            }
+
+            .expand-icon i{
+                transition: transform 0.3s;
+            }
+
+            .expand-icon i.expanded{
+                transform: rotate(180deg);
+            }
+
+            .task-count {
+                font-size: 14px;
+            }
+
+            .fa-caret-down {
+                margin: 0px 0px 0px 5px;
+
+            }
+        }
+
+        .ee-task-list {
+            height: 0px;
+            overflow: hidden;
+            transition: height 0.3s;
+            margin: 0px;
+        }
+
+        .ee-task-list.expanded {
+            height: auto;
+        }
+    }
+}

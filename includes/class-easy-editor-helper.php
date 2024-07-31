@@ -30,6 +30,7 @@ class Easy_Editor_Helper {
 
     public static function should_editor_be_active(){
         return is_user_logged_in() && Easy_Editor_Helper::check_user_capability_for_tasks('u') && !is_admin();
+        // return true;
     }
 
     public static function generate_wysiwyg_editor($content){

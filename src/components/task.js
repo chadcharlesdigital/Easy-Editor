@@ -1,10 +1,13 @@
 import React from 'react';
+import ReplaceHtmlEllipsis from '../lib/ReplaceHtmlEllipsis';
 
 function Task({ task }) {
 
     return (
-        <li>
-            {task.title.rendered}
+        <li class='ee-task'>
+            {ReplaceHtmlEllipsis( task.title.rendered )}
+
+            
         </li>
     );
 }

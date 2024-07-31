@@ -18,31 +18,33 @@
 //     outline: 1px solid red;
 // }
 
-.easy-editor-on{
-    .ee-highlighted, .ee-selected{
+.easy-editor-on {
+
+    .ee-highlighted,
+    .ee-selected {
         outline: 1px solid $blue;
         position: relative;
     }
 
-    .ee-selected{
+    .ee-selected {
         scroll-margin-top: 10vh;
     }
 
-    .ee-selected::after{
+    .ee-selected::after {
         content: "+ Add Task";
-    position: absolute;
-    top: 0;
-    left: 0;
-    outline: 1px solid #2036CE;
-    color: white;
-    background-color: #2036CE;
-    border-radius: 5px;
-    pointer-events: none;
-    padding: 2px;
-    font-size: 10px;
-    transform: translate(-20%, -80%);
-    width: 57px;
-    @include font-style
+        position: absolute;
+        top: 0;
+        left: 0;
+        outline: 1px solid #2036CE;
+        color: white;
+        background-color: #2036CE;
+        border-radius: 5px;
+        pointer-events: none;
+        padding: 2px;
+        font-size: 10px;
+        transform: translate(-20%, -80%);
+        width: 57px;
+        @include font-style
     }
 
 }

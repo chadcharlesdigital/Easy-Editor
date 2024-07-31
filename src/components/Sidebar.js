@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import Tabs from './Tabs';
 import NewTaskForm from './NewTaskForm';
 import ActiveTasks from './ActiveTasks';
@@ -10,7 +10,7 @@ Top level component
 function Sidebar() {
 
   const [sidebarVisible, setSidebarVisible] = React.useState("closed");
-  const [activeTasks, setActiveTasks] = React.useState({status:"loading", body:[]});
+  const [activeTasks, setActiveTasks] = React.useState({ status: "loading", body: [] });
   const [activeTab, setActiveTab] = React.useState(0);
 
 
@@ -21,7 +21,7 @@ function Sidebar() {
         tabHeader = "Loading...";
         break;
       case "success":
-      tabHeader = `Active Tasks (${activeTasks.body.length})`;
+        tabHeader = `Active Tasks (${activeTasks.body.length})`;
         break;
       case "error":
         tabHeader = "Active Tasks (0)";
@@ -37,29 +37,47 @@ function Sidebar() {
   };
 
 
-  //handles the triple tap to open editor on mobile
   let touchTimes = [];
+  let linkTimeout;
 
+  //this is working but needs some extra work when trying to select links
   const tripleTap = (e) => {
     const now = Date.now();
     touchTimes.push(now);
 
-    // Filter out touch times older than 500 milliseconds
-    touchTimes = touchTimes.filter(time => now - time < 500);
+    if (sidebarVisible === "closed") {
+      // Filter out touch times older than 500 milliseconds
+      touchTimes = touchTimes.filter(time => now - time < 500);
 
-    if (touchTimes.length === 3) {
-      setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
-      touchTimes = []; // Reset the array after detecting a triple tap
+      // If there's an existing timeout, clear it
+      if (linkTimeout) {
+        clearTimeout(linkTimeout);
+      }
+      // Check if the target is a link
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+
+        // Set a timeout to follow the link after 500 milliseconds if no other touches occur
+        linkTimeout = setTimeout(() => {
+          window.location.href = e.target.href;
+        }, 500);
+      }
+
+      if (touchTimes.length === 3) {
+        setSidebarVisible(prevState => (prevState === "open" ? "closed" : "open"));
+        clearTimeout(linkTimeout);
+        touchTimes = []; // Reset the array after detecting a triple tap
+      }
     }
-  }
+  };
 
   const fetchActiveTasks = () => {
     wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
       console.log(tasks);
-      setActiveTasks({status:"success",body:tasks});
+      setActiveTasks({ status: "success", body: tasks });
     }).catch(error => {
       console.log('error', error)
-      setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
+      setActiveTasks({ status: "error", body: "Error getting active tasks, please reload the page. If the problem persists contact your site admin" });
     });
   }
 
@@ -95,14 +113,7 @@ function Sidebar() {
   //this is responsible for fetching tasks from the server
   useEffect(() => {
     console.log('fetching tasks')
-    // wp.apiRequest({ path: 'wp/v2/task/?per_page=100' }).then(tasks => {
-    //   console.log(tasks);
-    //   setActiveTasks({status:"success",body:tasks});
-    // }).catch(error => {
-    //   console.log('error', error)
-    //   setActiveTasks({status: "error", body:"Error getting active tasks, please reload the page. If the problem persists contact your site admin"});
-    // });
-    fetchActiveTasks(); 
+    fetchActiveTasks();
 
   }, []);
 
