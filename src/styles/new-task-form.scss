@@ -18,21 +18,13 @@
     textarea {
         width: 100%;
         padding: 10px;
-        /* Adjust padding as needed */
         border: 1px solid #ccc;
-        /* Adjust border color */
         border-radius: 4px;
-        /* Rounded corners */
         box-sizing: border-box;
-        /* Ensure padding and border are included in the width */
         font-family: Arial, sans-serif;
-        /* Use a good font */
-        font-size: 16px;
-        /* Adjust font size as needed */
+        font-size: 16px!important;//important is needed here because if font size goes below 14px iphones will zoom in on focus
         background-color: #f9f9f9;
-        /* Light background color */
         resize: vertical;
-        /* Allow vertical resizing */
     }
 
     textarea:focus {
