@@ -11,12 +11,18 @@
 @import './styles/highlighting-elements.scss';
 @import './styles/new-task-form.scss';
 @import './styles/active-tasks.scss';
+@import './styles/task.scss';
 
 
 /**
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ .ee-hidden{
+    display: none!important;
+ }
+
  .on-off-light::after {
     content: "";
     width: 8px;

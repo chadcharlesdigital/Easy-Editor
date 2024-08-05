@@ -1,0 +1,88 @@
+.ee-task {
+
+    padding: 10px 10px 0 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        .task-id{
+            text-align: center;
+            flex-basis: 25%;
+            .id-wrapper{
+                display: inline;
+                background-color: $blue;
+                border-radius: 50%;
+                padding: 10px 5px;
+                color: white;
+                font-weight: 900;
+                font-size: 14px;
+            }
+        }
+
+        .task-title {
+            flex-basis: 65%;
+            font-size: 14px;
+            line-height: 1em;
+        }
+
+        .task-dropdown-icon {
+            flex-basis: 10%;
+            text-align: center;
+            color: #69727D;
+            transition: transform 0.3s;
+        }
+
+        .task-dropdown-icon.expanded {
+            transform: rotate(180deg);
+        }
+    }
+
+    .task-content {
+        font-size: 12px;
+        color: #69727D;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        line-height: 1em;
+        .task-meta{
+            flex-basis: 25%;
+            margin-right: 10px;
+            text-align: center;
+            .device-icon{
+                font-size: 20px;
+                color: #69727D;
+            }
+            span{
+                display: block;
+            }
+            .meta-label{
+                color: #333333;
+            }
+        }
+
+        .task-body {
+            flex-basis: 75%;
+            p{
+                margin: 0px;
+            }
+        }
+    }
+
+    .task-footer {
+        font-size: 12px;
+            color: #69727D;
+            font-style: italic;
+            display: flex;
+            justify-content: space-between;
+        // .task-author {
+            i {
+                margin-right: 5px;
+            }
+        // }
+    }
+}

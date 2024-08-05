@@ -18,6 +18,11 @@
 //     outline: 1px solid red;
 // }
 
+.task-label {
+    display: none;
+    ;
+}
+
 .easy-editor-on {
 
     .ee-highlighted,
@@ -26,39 +31,53 @@
         position: relative;
     }
 
-    .ee-selected {
+    .ee-has-task {
+        outline: 1px solid $green;
+        position: relative;
+    }
+
+    .ee-selected,
+    .ee-has-task {
         scroll-margin-top: 10vh;
+    }
+
+    .ee-selected::after,
+    .task-label {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 5px;
+        pointer-events: none;
+        padding: 2px;
+        font-size: 12px;
+        line-height: 12px;
+        transform: translate(-20%, -80%);
+        width: 70px;
+        @include font-style
     }
 
     .ee-selected::after {
         content: "+ Add Task";
-        position: absolute;
-        top: 0;
-        left: 0;
-        outline: 1px solid #2036CE;
+        outline: 1px solid $blue;
         color: white;
-        background-color: #2036CE;
-        border-radius: 5px;
-        pointer-events: none;
-        padding: 2px;
-        font-size: 10px;
-        transform: translate(-20%, -80%);
-        width: 57px;
-        @include font-style
+        background-color: $blue;
+    }
+
+    .task-label {
+        display: block;
+        outline: 1px solid $green;
+        color: black;
+        background-color: $green;
+    }
+
+
+
+    @media (min-width: 783px) {
+        .ee-selected,
+        .ee-has-task {
+            scroll-margin-top: 100px;
+        }
     }
 
 }
-
-// @keyframes shake {
-//     0% { transform: translate(1px, 1px) rotate(0deg); }
-//     10% { transform: translate(-1px, -2px) rotate(-1deg); }
-//     20% { transform: translate(-3px, 0px) rotate(1deg); }
-//     30% { transform: translate(3px, 2px) rotate(0deg); }
-//     40% { transform: translate(1px, -1px) rotate(1deg); }
-//     50% { transform: translate(-1px, 2px) rotate(-1deg); }
-//     60% { transform: translate(-3px, 1px) rotate(0deg); }
-//     70% { transform: translate(3px, 1px) rotate(-1deg); }
-//     80% { transform: translate(-1px, -1px) rotate(1deg); }
-//     90% { transform: translate(1px, 2px) rotate(0deg); }
-//     100% { transform: translate(1px, -2px) rotate(-1deg); }
-//   }

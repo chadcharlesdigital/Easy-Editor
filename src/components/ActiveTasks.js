@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Task from './task'
 import FormatURL from '../lib/FormatURL'
 import PageTasks from './PageTasks'
 
