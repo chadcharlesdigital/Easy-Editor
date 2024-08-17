@@ -176,6 +176,9 @@ class Easy_Editor {
 		$this->loader->add_action('rest_api_init',$plugin_admin, 'register_API_routes');
 
 		$this->loader->add_action('rest_api_init', $plugin_admin, 'register_tasks_fields');
+
+		$this->loader->add_action( 'wp_insert_post', $plugin_admin, 'save_creation_timestamp', 10, 3 );
+
 	}
 
 	/**

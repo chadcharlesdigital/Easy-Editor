@@ -1,8 +1,10 @@
 .ee-task {
 
     padding: 10px 10px 0 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border: 2px solid #f1f1f1;
+    border-radius: 5px;
     margin-bottom: 20px;
+
     .task-header {
         display: flex;
         justify-content: space-between;
@@ -10,10 +12,11 @@
         margin-bottom: 8px;
         cursor: pointer;
 
-        .task-id{
+        .task-id {
             text-align: center;
             flex-basis: 25%;
-            .id-wrapper{
+
+            .id-wrapper {
                 display: inline;
                 background-color: $blue;
                 border-radius: 50%;
@@ -35,6 +38,7 @@
             text-align: center;
             color: #69727D;
             transition: transform 0.3s;
+            font-size: 15px;
         }
 
         .task-dropdown-icon.expanded {
@@ -49,25 +53,30 @@
         display: flex;
         justify-content: space-between;
         line-height: 1em;
-        .task-meta{
+
+        .task-meta {
             flex-basis: 25%;
             margin-right: 10px;
             text-align: center;
-            .device-icon{
+
+            .device-icon {
                 font-size: 20px;
                 color: #69727D;
             }
-            span{
+
+            span {
                 display: block;
             }
-            .meta-label{
+
+            .meta-label {
                 color: #333333;
             }
         }
 
         .task-body {
             flex-basis: 75%;
-            p{
+
+            p {
                 margin: 0px;
             }
         }
@@ -75,14 +84,16 @@
 
     .task-footer {
         font-size: 12px;
-            color: #69727D;
-            font-style: italic;
-            display: flex;
-            justify-content: space-between;
+        color: #69727D;
+        font-style: italic;
+        display: flex;
+        justify-content: space-between;
+
         // .task-author {
-            i {
-                margin-right: 5px;
-            }
+        i {
+            margin-right: 5px;
+        }
+
         // }
     }
 }

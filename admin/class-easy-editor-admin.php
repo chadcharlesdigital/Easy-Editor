@@ -278,10 +278,22 @@ class Easy_Editor_Admin
 			                $ee_data["screenSize"] = get_post_meta($object['id'], 'task_screen_size', true);
 			                $ee_data["URL"] = get_post_meta($object['id'], 'task_url', true);
 			                $ee_data["userAgent"] = get_post_meta($object['id'], 'task_user_agent', true);
+							$ee_data["creationTimestamp"] = get_post_meta($object['id'], 'creation_timestamp', true);
+							$ee_data["authorName"] = get_the_author_meta( 'display_name', $object["author"] );
+							// $ee_data["objectData"] = $object;
 			                return $ee_data;
 			            }
 			        )
 			    );
+	}
+
+	public function save_creation_timestamp( $post_id, $post, $update ) {
+		// Check if it's a "tasks" CPT and if it's a new post (not an update)
+		if ( $post->post_type === 'task' && !$update ) {
+			// Add the current UNIX timestamp to the post meta
+			$timestamp = time(); // current UNIX timestamp
+			update_post_meta( $post_id, 'creation_timestamp', $timestamp );
+		}
 	}
 
 	public function register_API_routes()

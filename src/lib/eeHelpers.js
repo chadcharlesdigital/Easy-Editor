@@ -36,3 +36,24 @@ export function formatURL(url) {
 
     return url;
 }
+
+//function for calculating the amount of time between when a task was created and the current time
+export function timeSinceCreatedAt(createdAt) {
+    const createdTime = new Date(createdAt * 1000); // Convert UNIX timestamp to milliseconds
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdTime;
+
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (minutes < 1) {
+        return "just now";
+    } else if (days >= 1) {
+        return `${days} day${days > 1 ? 's' : ''} old`;
+    } else if (hours >= 1) {
+        return `${hours} hour${hours > 1 ? 's' : ''} old`;
+    } else {
+        return `${minutes} minute${minutes > 1 ? 's' : ''} old`;
+    }
+}

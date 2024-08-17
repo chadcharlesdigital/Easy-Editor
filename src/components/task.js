@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReplaceHtmlEllipsis from '../lib/ReplaceHtmlEllipsis';
 import ResponseForm from './ResponseForm';
-import eeHelpers, { capitalizeFirstLetter, isThisPage } from '../lib/eeHelpers';
+import eeHelpers, { capitalizeFirstLetter, isThisPage, timeSinceCreatedAt } from '../lib/eeHelpers';
 
 function Task({ task }) {
 
@@ -25,9 +25,8 @@ function Task({ task }) {
 
     //goes out and finds all the todos and adds a class to mark them
     useEffect(() => {
-        // setTargetElement( document.querySelector(task['ee-data'].targetElement) );
 
-        console.log(targetElement);
+        console.log('task', task);
 
         if (targetElement && isThisPage(task['ee-data'].URL)) {
 
@@ -37,13 +36,11 @@ function Task({ task }) {
 
 
         return () => {
-            console.log('cleaning up')
         }
     }, []);
 
 
     useEffect(() => {
-        console.log('expanded useEffect running');
         const targetElement = document.querySelector(task['ee-data'].targetElement);
         if (targetElement && expanded) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -51,7 +48,6 @@ function Task({ task }) {
         }
 
         return () => {
-            console.log('Expanded UseEffect cleaning up')
         }
     }, [expanded]);
 
@@ -65,7 +61,7 @@ function Task({ task }) {
                     {ReplaceHtmlEllipsis(capitalizeFirstLetter(task.title.rendered))}
                 </div>
                 <div className={expanded ? "task-dropdown-icon expanded" : "task-dropdown-icon"}>
-                    <i class="fa-sharp fa-solid fa-caret-down"></i>
+                <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
 
@@ -88,11 +84,11 @@ function Task({ task }) {
 
             <div className="task-footer">
                 <div className="task-author">
-                    <span><i class="fa-sharp fa-solid fa-user"></i>Author</span>
+                    <span><i class="fa-sharp fa-solid fa-user"></i>{task['ee-data'].authorName}</span>
                 </div>
 
                 <div className="task-age">
-                    <span><i class="fa-sharp fa-solid fa-clock"></i>3 Days Old</span>
+                    <span><i class="fa-sharp fa-solid fa-clock"></i>{timeSinceCreatedAt(task['ee-data'].creationTimestamp)}</span>
                 </div>
                 <div className="complete-task">
                     <span><i class="fa-sharp fa-solid fa-check"></i>Complete</span>
