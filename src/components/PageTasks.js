@@ -22,10 +22,10 @@ function PageTasks({ tasks }) {
 
     return (
         <div className='ee-page-tasks'>
-            <div className='ee-page-tasks-header' onClick={(e) => { setExpanded(!expanded) }}>
+            <div className='ee-page-tasks-header' onClick={(e) => { console.log(e); setExpanded(!expanded) }}>
                 <h3 className='task-page-url'>
                     {tasks[0]['ee-data'].URL === FormatURL(window.location.href) ? "Tasks On This Page:" : EndOfString(tasks[0]['ee-data'].URL)}
-                    {tasks[0]['ee-data'].URL !== FormatURL(window.location.href) ? <a href={getCurrentProtocol() + tasks[0]['ee-data'].URL}><i className='color-grey link-icon fa-solid fa-up-right-from-square'></i></a> : ''}
+                    {tasks[0]['ee-data'].URL !== FormatURL(window.location.href) ? <a onClick={(e)=>{e.stopPropagation()}} href={getCurrentProtocol() + tasks[0]['ee-data'].URL}><i className='color-grey link-icon fa-solid fa-up-right-from-square'></i></a> : ''}
                 </h3>
                 <div className="expand-icon">
                     <span className="task-count">({tasks.length})</span>
