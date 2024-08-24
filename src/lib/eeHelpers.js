@@ -57,3 +57,26 @@ export function timeSinceCreatedAt(createdAt) {
         return `${minutes} minute${minutes > 1 ? 's' : ''} old`;
     }
 }
+
+export function FormatURL(url) {
+    // Remove http:// or https://
+    url = url.replace(/^https?:\/\//, '');
+
+    // Remove www. if it exists
+    url = url.replace(/^www\./, '');
+
+    // Remove parameters and fragments
+    url = url.split(/[?#]/)[0];
+
+    // Remove the final slash if it exists
+    if (url.endsWith('/')) {
+        url = url.slice(0, -1);
+    }
+
+    return url;
+}
+
+
+export function getCurrentProtocol() {
+    return window.location.protocol.replace(':', '') + '://';
+  }

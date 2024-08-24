@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReplaceHtmlEllipsis from '../lib/ReplaceHtmlEllipsis';
 import ResponseForm from './ResponseForm';
-import eeHelpers, { capitalizeFirstLetter, isThisPage, timeSinceCreatedAt } from '../lib/eeHelpers';
+import eeHelpers, { capitalizeFirstLetter, isThisPage, timeSinceCreatedAt, formatURL } from '../lib/eeHelpers';
 
 function Task({ task }) {
 
@@ -20,7 +20,9 @@ function Task({ task }) {
     }
 
     const scrollToTarget = () => {
+        if (task['ee-data'].URL == formatURL(window.location.href)) {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
     //goes out and finds all the todos and adds a class to mark them
@@ -43,7 +45,7 @@ function Task({ task }) {
     useEffect(() => {
         const targetElement = document.querySelector(task['ee-data'].targetElement);
         if (targetElement && expanded) {
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            scrollToTarget();
 
         }
 

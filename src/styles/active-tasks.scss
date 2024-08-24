@@ -31,6 +31,16 @@
                     color: #323232;
                     font-style: italic;
                 }
+
+                .link-icon{
+                    color:grey;
+                    margin-left: 5px;
+                }
+
+                .link-icon:hover{
+                    color: #000000;
+                    text-decoration: underline;
+                }
             }
 
             .expand-icon i{
