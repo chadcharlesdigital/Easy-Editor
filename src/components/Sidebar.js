@@ -126,7 +126,9 @@ function Sidebar() {
           <i className="fa-solid fa-x"></i>
         </div>
         <div className="ee-logo">
-          <div className="ee-headline"><span className="text-blue">EASY </span> <span className="text-green">EDITOR</span></div>
+          <div className="ee-headline">
+            <span className="text-blue">EASY </span> <span className="text-green">EDITOR</span>
+          </div>
         </div>
 
         <div className="ee-collapse">

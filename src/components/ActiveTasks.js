@@ -56,7 +56,7 @@ function ActiveTasks({ tasks }) {
             {/* output the rest of the pages */}
             {sortedTasks ? Object.keys(sortedTasks).map((key, index) => {
                 if (key !== FormatURL(window.location.href)) {
-                    return <PageTasks tasks={sortedTasks[key]} />
+                    return <PageTasks key={key} tasks={sortedTasks[key]} />
                 }
             }) : ''}
         </div>

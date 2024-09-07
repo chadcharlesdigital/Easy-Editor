@@ -7,7 +7,8 @@ function Tabs( {tabs} ) {
         <div className="ee-mobile-tabs">
             <div className="ee-tab-header-container">
                 {tabs.map((tab, index) => ( 
-                <div 
+                <div
+                key={tab.title + "-header"} 
                 className={tab.activeTab === index ? "ee-tab-header active" : "ee-tab-header"}
                 onClick={() => tab.setActiveTab(index)}>
                     {tab.title}
@@ -16,7 +17,9 @@ function Tabs( {tabs} ) {
             </div>
             <div className="ee-tab-content-container">
                 {tabs.map((tab, index) => (
-                    <div className={tab.activeTab === index ? "ee-tab-content active" : "ee-tab-content"}>
+                    <div 
+                    key={tab.title} 
+                    className={tab.activeTab === index ? "ee-tab-content active" : "ee-tab-content"}>
                         {tab.content}
                     </div>
                 ))}
